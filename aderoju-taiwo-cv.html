@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive CV | Aderoju Taiwo Ayoola</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: The application uses a single-page, vertical-scroll layout with a sticky navigation bar for easy access to key sections: About, Experience, Skills, and Education. This structure was chosen to provide a guided yet flexible narrative of the candidate's profile, moving from a general summary to specific, interactive details. The centerpiece is an interactive timeline for experience, designed to be more engaging than a traditional list. This approach allows a recruiter to quickly get an overview or dive deep into the areas most relevant to them, enhancing usability and information retention. -->
+    <!-- Visualization & Content Choices:
+        - Experience: Report Info (Job History) -> Goal (Explore Chronology) -> Viz (Interactive JS Timeline) -> Interaction (Click to reveal details) -> Justification (More engaging than a static list, highlights progression) -> Library/Method (Vanilla JS, HTML, Tailwind).
+        - Technical Skills: Report Info (Software List) -> Goal (Compare Proficiency) -> Viz (Horizontal Bar Chart) -> Interaction (Hover for tooltips) -> Justification (Visually represents skill levels, breaks up text) -> Library/Method (Chart.js on Canvas).
+        - Core Skills: Report Info (Soft Skills List) -> Goal (Inform Quickly) -> Viz (Tag/Pill Grid) -> Interaction (Static display) -> Justification (Modern, scannable presentation) -> Library/Method (HTML, Tailwind).
+        - Certifications: Report Info (Cert List) -> Goal (Organize/Inform) -> Viz (Styled List with Icons) -> Interaction (Static display with visual cues for 'in-progress') -> Justification (Improves clarity and scannability) -> Library/Method (HTML, Tailwind, Unicode characters). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFDFB;
+            color: #3D405B;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #81B29A;
+            border-bottom-color: #81B29A;
+        }
+        .timeline-item.active .timeline-dot {
+            background-color: #81B29A;
+            transform: scale(1.25);
+        }
+        .timeline-item.active .timeline-date {
+            color: #81B29A;
+            font-weight: 700;
+        }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 800px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 300px;
+            max-height: 400px; 
+        }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="sticky top-0 bg-[#FDFDFB]/80 backdrop-blur-sm z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <ul class="flex justify-center space-x-6 md:space-x-10 text-sm md:text-base">
+                <li><a href="#about" class="nav-link font-medium pb-1 border-b-2 border-transparent">About</a></li>
+                <li><a href="#experience" class="nav-link font-medium pb-1 border-b-2 border-transparent">Experience</a></li>
+                <li><a href="#skills" class="nav-link font-medium pb-1 border-b-2 border-transparent">Skills</a></li>
+                <li><a href="#education" class="nav-link font-medium pb-1 border-b-2 border-transparent">Education</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-16">
+
+        <section id="about" class="text-center mb-16 md:mb-24">
+            <h1 class="text-4xl md:text-6xl font-bold text-[#3D405B] mb-2">Aderoju Taiwo Ayoola</h1>
+            <p class="text-lg md:text-xl text-[#81B29A] font-medium mb-6">Administrative Professional</p>
+            <div class="max-w-3xl mx-auto text-base md:text-lg text-gray-700 leading-relaxed mb-8">
+                <p>
+                    This section introduces Aderoju, a highly organized and detail-oriented Administrative Professional. Here you'll find a summary of her background in office management, project coordination, and stakeholder engagement, providing a snapshot of her core competencies and professional ethos.
+                </p>
+                <p class="mt-4 bg-stone-100 p-6 rounded-lg shadow-sm">
+                    Skilled in maintaining accurate records, optimizing operational processes, and providing top-notch administrative support. Adept at multitasking, scheduling, and ensuring efficient workflow in fast-paced corporate environments.
+                </p>
+            </div>
+            <div class="flex justify-center items-center space-x-4">
+                <a href="mailto:aderojutaiwo3@gmail.com" class="bg-[#3D405B] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#E07A5F] transition-colors duration-300">Contact Me</a>
+                <a href="https://www.linkedin.com/in/taiwoayoolaaderoju" target="_blank" class="text-[#3D405B] font-bold py-3 px-6 rounded-lg border-2 border-[#3D405B] hover:bg-[#3D405B] hover:text-white transition-colors duration-300">LinkedIn</a>
+            </div>
+        </section>
+
+        <section id="experience" class="mb-16 md:mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#3D405B] mb-4">Professional Experience</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">
+                    Explore Aderoju's career journey through this interactive timeline. Click on each role to see a detailed description of her responsibilities and achievements. This format allows for a clear, chronological view of her professional growth and the diverse skills she has developed.
+                </p>
+            </div>
+            <div class="relative w-full">
+                <div class="w-full border-t-2 border-dashed border-gray-300 absolute top-1/2 -translate-y-1/2"></div>
+                <div id="timeline-container" class="relative flex justify-between items-center">
+                </div>
+            </div>
+            <div id="experience-details" class="mt-8 min-h-[250px] bg-white p-6 rounded-lg shadow-lg border border-gray-200 transition-opacity duration-500">
+            </div>
+        </section>
+
+        <section id="skills" class="mb-16 md:mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#3D405B] mb-4">Skills Dashboard</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">
+                    This section provides a visual breakdown of Aderoju's capabilities. It's split into two parts: a chart visualizing her proficiency with key technical tools, and a grid showcasing her core professional skills. This dashboard offers a quick, comprehensive understanding of her expertise.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#3D405B]">Technical Skills</h3>
+                     <div class="chart-container">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#3D405B]">Core Skills</h3>
+                    <div id="core-skills-container" class="flex flex-wrap justify-center gap-3">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="bg-stone-100 -mx-6 px-6 py-12 md:py-20 rounded-lg">
+            <div class="container mx-auto">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#3D405B] mb-4">Education & Certifications</h2>
+                    <p class="max-w-2xl mx-auto text-gray-600">
+                        Here you'll find Aderoju's academic background and her commitment to continuous learning through professional certifications. The certifications are marked to distinguish between completed courses and those currently in progress.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#3D405B] mb-4">Education</h3>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                             <p class="font-bold text-lg">H.N.D in Business Administration</p>
+                             <p class="text-gray-600">Harvarde College, Abeokuta</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#3D405B] mb-4">Certifications</h3>
+                        <div id="certifications-container" class="space-y-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-[#3D405B] text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="font-bold text-lg mb-2">Aderoju Taiwo Ayoola</p>
+            <p><a href="mailto:aderojutaiwo3@gmail.com" class="hover:text-[#81B29A] transition-colors">aderojutaiwo3@gmail.com</a></p>
+            <p>(+234) 8100918516</p>
+            <div class="mt-4">
+                <a href="https://www.linkedin.com/in/taiwoayoolaaderoju" target="_blank" class="hover:text-[#81B29A] transition-colors">LinkedIn Profile</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const experienceData = [
+                {
+                    id: 'techmedia',
+                    date: '2021-2024',
+                    title: 'Administrative Officer',
+                    company: 'TECHMEDIA EXPRESSION',
+                    details: [
+                        'Managed daily office operations, ensuring smooth workflow and coordination within a dynamic corporate setting.',
+                        'Maintained and organized business records, enhancing data accessibility and accuracy for efficient reporting and retrieval.',
+                        'Conducted research to improve business processes and customer service, contributing to operational efficiency and client satisfaction.',
+                        'Provided comprehensive administrative support, including scheduling meetings, managing calendars, and handling professional correspondence.'
+                    ]
+                },
+                {
+                    id: 'yali-tour',
+                    date: 'Apr - Aug 2024',
+                    title: 'Program Administrator',
+                    company: 'YALI Ogun Tertiary School Tour',
+                    details: [
+                        'Managed scheduling, communication, and logistics for a leadership development initiative, ensuring seamless program execution.',
+                        'Developed awareness campaigns and collaborated with institutions to ensure smooth execution and maximize participant engagement.',
+                        'Provided administrative support, ensuring accurate reporting and evaluation of program outcomes.'
+                    ]
+                },
+                {
+                    id: 'yes-summit',
+                    date: 'April 2024',
+                    title: 'Trade Exhibition Coordinator',
+                    company: 'YES Ogun Summit',
+                    details: [
+                        'Led event planning and vendor relations for a trade fair with over 400 attendees, overseeing all logistical aspects.',
+                        'Organized comprehensive logistics, ensuring seamless operations and an optimal participant experience.',
+                        'Developed effective outreach strategies to significantly increase vendor participation.'
+                    ]
+                },
+                {
+                    id: 'yali-outreach',
+                    date: 'Jan - Apr 2024',
+                    title: 'Project Manager',
+                    company: 'YALI Ogun Medical Outreach',
+                    details: [
+                        'Oversaw administrative functions for a medical outreach program serving over 100 participants, ensuring efficient resource utilization.',
+                        'Managed partnerships, fundraising efforts, and resource allocation to support project sustainability and success.',
+                        'Coordinated logistics, volunteer assignments, and reporting processes, maintaining high standards of organization and accountability.'
+                    ]
+                }
+            ];
+
+            const coreSkills = [
+                'Office Administration & Management', 'Document & Records Management', 'Stakeholder Engagement',
+                'Scheduling & Calendar Management', 'Team Coordination & Support', 'Effective Communication',
+                'Report Writing & Data Analysis', 'Customer Service Relations', 'Team Player', 'Time Management'
+            ];
+            
+            const certifications = [
+                { name: 'Virtual Assistance', provider: 'Alx Africa', year: 2024, status: 'Completed' },
+                { name: 'Human Resource', provider: 'Digital Exchange Academy (DEXA)', year: 2024, status: 'In View' },
+                { name: 'Figma Design', provider: 'Udemy Business', year: 2023, status: 'Completed' },
+                { name: 'Project Management', provider: 'Digital Exchange Academy (DEXA)', year: 2023, status: 'In View' },
+                { name: 'Digital Marketing', provider: 'Nigeria Entrepreneurship Youth Initiative (N.E.Y.I)', year: 2023, status: 'Completed' },
+                { name: 'Sound Design & Stage Lighting', provider: 'Terra Academy for Arts', year: 2022, status: 'Completed' }
+            ];
+
+            const timelineContainer = document.getElementById('timeline-container');
+            const experienceDetailsContainer = document.getElementById('experience-details');
+            const coreSkillsContainer = document.getElementById('core-skills-container');
+            const certificationsContainer = document.getElementById('certifications-container');
+
+            function populateTimeline() {
+                experienceData.forEach((job, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'timeline-item relative cursor-pointer flex flex-col items-center';
+                    item.dataset.id = job.id;
+                    item.innerHTML = `
+                        <div class="timeline-dot w-4 h-4 bg-gray-300 rounded-full transition-all duration-300"></div>
+                        <p class="timeline-date mt-2 text-sm text-gray-500 transition-colors duration-300">${job.date}</p>
+                    `;
+                    timelineContainer.appendChild(item);
+                });
+            }
+
+            function updateExperienceDetails(jobId) {
+                const job = experienceData.find(j => j.id === jobId);
+                if (!job) return;
+
+                let detailsHtml = `
+                    <h3 class="text-2xl font-bold text-[#3D405B]">${job.title}</h3>
+                    <p class="text-lg font-medium text-[#E07A5F] mb-4">${job.company}</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        ${job.details.map(d => `<li>${d}</li>`).join('')}
+                    </ul>
+                `;
+                experienceDetailsContainer.style.opacity = 0;
+                setTimeout(() => {
+                    experienceDetailsContainer.innerHTML = detailsHtml;
+                    experienceDetailsContainer.style.opacity = 1;
+                }, 300);
+            }
+
+            timelineContainer.addEventListener('click', (e) => {
+                const targetItem = e.target.closest('.timeline-item');
+                if (targetItem) {
+                    document.querySelectorAll('.timeline-item').forEach(item => item.classList.remove('active'));
+                    targetItem.classList.add('active');
+                    updateExperienceDetails(targetItem.dataset.id);
+                }
+            });
+            
+            function populateCoreSkills() {
+                coreSkills.forEach(skill => {
+                    const skillTag = document.createElement('span');
+                    skillTag.className = 'bg-[#81B29A] text-white text-sm font-medium px-4 py-2 rounded-full shadow-sm';
+                    skillTag.textContent = skill;
+                    coreSkillsContainer.appendChild(skillTag);
+                });
+            }
+
+            function populateCertifications() {
+                certifications.forEach(cert => {
+                    const certItem = document.createElement('div');
+                    certItem.className = 'bg-white p-4 rounded-lg shadow-sm flex items-start';
+                    const icon = cert.status === 'Completed' 
+                        ? `<span class="text-green-500 mr-3 mt-1">&#10004;</span>` 
+                        : `<span class="text-yellow-500 mr-3 mt-1">&#8987;</span>`;
+
+                    certItem.innerHTML = `
+                        ${icon}
+                        <div>
+                            <p class="font-bold">${cert.name} (${cert.year})</p>
+                            <p class="text-sm text-gray-500">${cert.provider} - <span class="font-medium">${cert.status}</span></p>
+                        </div>
+                    `;
+                    certificationsContainer.appendChild(certItem);
+                });
+            }
+
+
+            function createSkillsChart() {
+                const ctx = document.getElementById('skillsChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Microsoft Office Suite', 'Google Workspace', 'Email & Calendar Mgmt', 'Figma (Basic)'],
+                        datasets: [{
+                            label: 'Proficiency',
+                            data: [90, 95, 98, 70],
+                            backgroundColor: ['#81B29A', '#3D405B', '#F2CC8F', '#E07A5F'],
+                            borderColor: '#FDFDFB',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let value = context.raw;
+                                        let proficiency = '';
+                                        if (value >= 90) proficiency = 'Advanced';
+                                        else if (value >= 70) proficiency = 'Proficient';
+                                        else proficiency = 'Intermediate';
+                                        return `${context.dataset.label}: ${proficiency}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            function handleNavScroll() {
+                const sections = document.querySelectorAll('section');
+                const navLinks = document.querySelectorAll('.nav-link');
+                
+                window.onscroll = () => {
+                    let current = '';
+                    sections.forEach(section => {
+                        const sectionTop = section.offsetTop;
+                        if (pageYOffset >= sectionTop - 60) {
+                            current = section.getAttribute('id');
+                        }
+                    });
+
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').includes(current)) {
+                            link.classList.add('active');
+                        }
+                    });
+                };
+            }
+
+            populateTimeline();
+            populateCoreSkills();
+            populateCertifications();
+            createSkillsChart();
+            handleNavScroll();
+            
+            document.querySelector('.timeline-item').click();
+        });
+    </script>
+</body>
+</html>
